@@ -8,14 +8,14 @@ A bider shall not accept any offer higher than the bid price
 because the bider can create bids based on their cash reserve, if they accept a bid
 higher than their bid it would break this mechanic
 
-AGENT A has $50  market = {food $4 for 1 unit, wood $10 for 1 unit, jewelery $80 for 1 unit}
-AGENT A Priorities are as follows;
+AGENT A has $50:  market = {food $4 for 1 unit, wood $10 for 1 unit, jewelery $80 for 1 unit}
+AGENT A: Priorities are as follows;
 - Food
 - Wood
 - Jewelery
 
 //Function to generate offers
-//lets say agenrt A needs 10 food and 4 units of wood, buy jewels in have money left over
+//lets say agent A needs 10 food and 4 units of wood, buy jewels if has money left over
 GenerateOffers(market)
 {
 	canSpend = myRevenue
@@ -51,10 +51,10 @@ how influencial these interests have on their lives, and purchasing habits
 
 
 //hard part
-how to determine, how these interests change over time Long term vs Short term...
+how to determine, how these interests change over time? Long term vs Short term...
 
 
-INSERTEST
+Agent Interest
 - Base factor
 - Influence factor
 - Contact factor
