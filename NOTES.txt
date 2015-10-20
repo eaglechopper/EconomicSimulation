@@ -1,0 +1,69 @@
+
+Biding/Asking optimisation
+RULES FOR TRADING
+- Highest bids will get processed first 
+- Lowest asks will get processed first
+
+A bider shall not accept any offer higher than the bid price
+because the bider assumes
+
+we can make a biders create bids based on their cash reserve
+
+AGENT A has $50  market = {food $4 for 1 unit, wood $10 for 1 unit, jewelery $80 for 1 unit}
+AGENT A Priorities are as follows;
+- Food
+- Wood
+- Jewelery
+
+//Function to generate offers
+//lets say agenrt A needs 10 food and 4 units of wood, buy jewels in have money left over
+GenerateOffers(market)
+{
+	canSpend = myRevenue
+	market.createBid("food", 10)
+	canSpend = canSpend - (10 * 4)//10 = food units, 4 = cost of food
+	//canSpend = 10
+	market.createBid("wood", 1) //can only afford 1 unit of wood
+	//if the agent cant afford the essentials like food and water
+	//we can get him to sell some goods
+}
+//TradeBooks
+
+BUY FOOD                               SELL FOOD
+Agent A  10 food @ $4                 Agent B 10 Food @  $7
+
+WOOD
+Agent A 1 Wood @ $1
+
+
+
+
+
+//Possible algorithms to calculate economic behaviour
+
+skill_progression = (talent, current_skill_level, interest_level, ??random_element??)
+
+
+INTERESTS
+- people have interests, each interest has a "influence" factor which dertermines
+how influencial these interests have on their lives, and purchasing habits
+
+
+
+
+//hard part
+how to determine, how these interests change over time Long term vs Short term...
+
+
+INSERTEST
+- Base factor
+- Influence factor
+- Contact factor
+
+interest_Level = function(base_factor, influence_factor, contact_factor)
+
+Household agent buying behaviour:
+how to determine how "household" buy goods
+
+order of spending:
+agents will priortise their spending habits
