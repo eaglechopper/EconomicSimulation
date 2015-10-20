@@ -28,6 +28,8 @@ public class ClockFloatBuffer
 	
 	private float max;
 	private int countMax;
+	//Running average
+	private float totalSum;
 
 	private ClockFloatBufferListener listener;
 	
@@ -41,11 +43,61 @@ public class ClockFloatBuffer
 	{
 		this.buffer = new float[size];
 	}
-	private void onLocalElementEvicted(float item)
+	private void onLocalElementEvicted(float evictedItem)
 	{
+		//Check min, max
+		if(evictedItem == min)
+		{
+			--countMin;
+			if(countMin <=0)
+				recalcMin();
+		}
+		else if(evictedItem == max)
+		{
+			--countMax;
+			if(countMax <= 0)
+				recalcMax();
+		}
+		//minus from total sum
+		totalSum -= evictedItem;
 		
 	}
-	
+	private void recalcMax()
+	{
+		float currentMax = buffer[0];
+		int currentCountMax  = 0;
+		
+		for(int i=0; i < buffer.length; i++)
+		{
+			if(buffer[i] == currentMax)
+				++currentCountMax;
+			else if(buffer[i] > currentMax)
+			{
+				currentMax = buffer[i];
+				currentCountMax = 1;
+			}
+		}
+		countMax = currentCountMax;
+		max = currentMax;
+	}
+	private void recalcMin() 
+	{
+		float currentMin = buffer[0];
+		int currentCountMin  = 0;
+		
+		for(int i=0; i < buffer.length; i++)
+		{
+			if(buffer[i] == currentMin)
+				++currentCountMin;
+			else if(buffer[i] < currentMin)
+			{
+				currentMin = buffer[i];
+				currentCountMin = 1;
+			}
+		}
+		countMin = currentCountMin;
+		min = currentMin;
+	}
 	public boolean add(float value)
 	{
 		if(needle >= buffer.length)
@@ -56,6 +108,19 @@ public class ClockFloatBuffer
 			onLocalElementEvicted(buffer[needle]);
 		}
 		buffer[needle++] = value;
+		//min count
+		if(value < min)
+			min = value;
+		else if(value == min)
+			++countMin;
+		//max count
+		if(value > max)
+			max = value;
+		else if(value == max)
+			++countMax;
+		//add total sum
+		totalSum += value;
+		
 		++totalCount;
 		return isFilled();
 	}
