@@ -5,9 +5,8 @@ RULES FOR TRADING
 - Lowest asks will get processed first
 
 A bider shall not accept any offer higher than the bid price
-because the bider assumes
-
-we can make a biders create bids based on their cash reserve
+because the bider can create bids based on their cash reserve, if they accept a bid
+higher than their bid it would break this mechanic
 
 AGENT A has $50  market = {food $4 for 1 unit, wood $10 for 1 unit, jewelery $80 for 1 unit}
 AGENT A Priorities are as follows;
