@@ -23,10 +23,10 @@ public class ClockFloatBuffer
 	private int needle;
 	private long totalCount;
 	//Meta values to maintain min, max
-	private float min;
+	private float min = Float.MAX_VALUE;
 	private int countMin;
 	
-	private float max;
+	private float max = Float.MIN_VALUE;
 	private int countMax;
 	//Running average
 	private float totalSum;
@@ -102,20 +102,29 @@ public class ClockFloatBuffer
 	{
 		if(needle >= buffer.length)
 			needle = 0;
-		if(isFilled() && listener != null)
+		if(isFilled())
 		{
-			listener.onElementEvicted(buffer[needle], this);
+			float evictedItem = buffer[needle];
+			buffer[needle++] = value;
+			if(listener!= null)
+				listener.onElementEvicted(evictedItem, this);
 			onLocalElementEvicted(buffer[needle]);
 		}
 		buffer[needle++] = value;
 		//min count
 		if(value < min)
+		{
 			min = value;
+			countMin  = 1;
+		}
 		else if(value == min)
 			++countMin;
 		//max count
 		if(value > max)
+		{
 			max = value;
+			countMax = 1;
+		}
 		else if(value == max)
 			++countMax;
 		//add total sum
@@ -176,5 +185,13 @@ public class ClockFloatBuffer
 	public float[] getUnorderBuffer()
 	{
 		return buffer;
+	}
+	public float getMin()
+	{
+		return min;
+	}
+	public float getMax()
+	{
+		return max;
 	}
 }
