@@ -2,7 +2,7 @@ package agent;
 
 import economy.Market;
 
-public class SellOffer implements Comparable<SellOffer>
+public class AskOffer implements Comparable<AskOffer>
 {
 	//OFFER INFO
 	private final BaseAgent seller;
@@ -13,7 +13,7 @@ public class SellOffer implements Comparable<SellOffer>
 	private int amountSold;
 	private final Market market;
 	
-	public SellOffer(BaseAgent seller, int good_id, int amount, float price, Market market)
+	public AskOffer(BaseAgent seller, int good_id, int amount, float price, Market market)
 	{
 		this.market = market;
 		this.price = price;
@@ -43,7 +43,7 @@ public class SellOffer implements Comparable<SellOffer>
 	}
 
 	@Override
-	public int compareTo(SellOffer o)
+	public int compareTo(AskOffer o)
 	{
 		if(totalAmountOfferd > o.totalAmountOfferd)
 			return 1;
@@ -63,6 +63,6 @@ public class SellOffer implements Comparable<SellOffer>
 	}
 	public void reject()
 	{
-		seller.onUpdateSalePrice(good_id, false, market, price);
+		seller.onUpdateAskPrice(good_id, false, market, price);
 	}
 }

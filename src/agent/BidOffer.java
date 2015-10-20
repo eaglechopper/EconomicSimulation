@@ -2,7 +2,7 @@ package agent;
 
 import economy.Market;
 
-public class BuyOffer implements Comparable<BuyOffer>
+public class BidOffer implements Comparable<BidOffer>
 {
 	private final BaseAgent buyer;
 	private final int good_id;
@@ -12,7 +12,7 @@ public class BuyOffer implements Comparable<BuyOffer>
 	private int amountRecieved;
 	private final Market market;
 	
-	public BuyOffer(BaseAgent buyer, int good_id, int amount, float price, Market market)
+	public BidOffer(BaseAgent buyer, int good_id, int amount, float price, Market market)
 	{
 		this.market = market;
 		this.price = price;
@@ -28,7 +28,7 @@ public class BuyOffer implements Comparable<BuyOffer>
 	public int getGoodID() {
 		return good_id;
 	}
-	public int remainingAmount()
+	public int amountRemaining()
 	{
 		return totalAmount - amountRecieved;
 	}
@@ -38,7 +38,7 @@ public class BuyOffer implements Comparable<BuyOffer>
 	}
 
 	@Override
-	public int compareTo(BuyOffer o)
+	public int compareTo(BidOffer o)
 	{
 		if(totalAmount > o.totalAmount)
 			return -1;
@@ -56,16 +56,13 @@ public class BuyOffer implements Comparable<BuyOffer>
 		// TODO Auto-generated method stub
 		return price;
 	}
-	public Inventory getInvenory() {
-		return buyer.inventory;
-	}
 	public void addRecieved(int i) {
 		amountRecieved += i;
 		
 	}
 	public void reject()
 	{
-		buyer.onUpdateBuyPrice(false, good_id, market, price);
+		buyer.onUpdateBidPrice(false, good_id, market, price);
 	}
 	
 }

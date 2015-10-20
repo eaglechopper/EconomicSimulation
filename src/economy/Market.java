@@ -1,7 +1,7 @@
 package economy;
 
-import agent.BuyOffer;
-import agent.SellOffer;
+import agent.BidOffer;
+import agent.AskOffer;
 
 public class Market 
 {
@@ -43,12 +43,12 @@ public class Market
 			session.resolveTrades();
 	}
 
-	public void addBuyOffer(BuyOffer createBuy) 
+	public void addBuyOffer(BidOffer createBuy) 
 	{
 		tradingBook[createBuy.getGoodID()].addBuy(createBuy);
 	}
 
-	public void addSellOffer(SellOffer createSell)
+	public void addSellOffer(AskOffer createSell)
 	{
 		tradingBook[createSell.getGoodID()].addSell(createSell);
 	}

@@ -27,31 +27,31 @@ public abstract class BaseAgent
 	public abstract boolean production();
 	public abstract void generateTrades(Market m);
 	
-	public BuyOffer createBuy(int good_id, int amount, Market market)
+	public BidOffer createBuy(int good_id, int amount, Market market)
 	{
-		return new BuyOffer(this, good_id, amount, determineBuyPrice(good_id), market);
+		return new BidOffer(this, good_id, amount, determineBidPrice(good_id), market);
 	}
-	public SellOffer createSell(int good_id, int amount, Market market)
+	public AskOffer createSell(int good_id, int amount, Market market)
 	{
-		return new SellOffer(this, good_id, amount, determineSalePrice(good_id), market);
+		return new AskOffer(this, good_id, amount, determineAskPrice(good_id), market);
 	}
 	
-	public float determineSalePrice(int good_id)
+	public float determineAskPrice(int good_id)
 	{
 		return priceModel[good_id].determineSellsPrice();
 	}
-	public float determineBuyPrice(int good_id)
+	public float determineBidPrice(int good_id)
 	{
 		return priceModel[good_id].determineBuyPrice();
 	}
 	
-	public void onUpdateSalePrice(int good_id, boolean success,  Market market, float unitPrice)
+	public void onUpdateAskPrice(int good_id, boolean success,  Market market, float unitPrice)
 	{
-		priceModel[good_id].updateSalePrice(success, market, unitPrice);
+		priceModel[good_id].updateAskPrice(success, market, unitPrice);
 	}
-	public void onUpdateBuyPrice(boolean success, int good_id, Market market, float unitPrice)
+	public void onUpdateBidPrice(boolean success, int good_id, Market market, float unitPrice)
 	{
-		priceModel[good_id].updateBuyPrice(success, market, unitPrice);
+		priceModel[good_id].updateBidPrice(success, market, unitPrice);
 	}
 	public void simulate(Market market)
 	{
@@ -74,7 +74,7 @@ public abstract class BaseAgent
 		return money;
 	}
 
-	public boolean removeMoney(float amount) 
+	public boolean pullMoney(float amount) 
 	{
 		if(money >= amount)
 		{

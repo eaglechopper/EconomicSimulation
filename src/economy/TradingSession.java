@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import agent.BuyOffer;
-import agent.SellOffer;
+import agent.BidOffer;
+import agent.AskOffer;
 
 public class TradingSession
 {
 	//BUYING AND SELLING LIST
-	private final List<SellOffer> selling;
-	private final List<BuyOffer> buyers;
+	private final List<AskOffer> selling;
+	private final List<BidOffer> buyers;
 	private final Market market;
 	//INFO
 	private final int good_id;
@@ -26,15 +26,15 @@ public class TradingSession
 	{
 		this.market = market;
 		this.good_id = good_id;
-		this.selling = new ArrayList<SellOffer>();
-		this.buyers = new ArrayList<BuyOffer>();
+		this.selling = new ArrayList<AskOffer>();
+		this.buyers = new ArrayList<BidOffer>();
 	}
-	public void addSell(SellOffer sellOffer)
+	public void addSell(AskOffer sellOffer)
 	{
 		this.selling.add(sellOffer);
 		bidVolume += sellOffer.getTotalOfferedAmount();
 	}
-	public void addBuy(BuyOffer buyOffer)
+	public void addBuy(BidOffer buyOffer)
 	{
 		askVolume += buyOffer.getTotalAmount();
 		this.buyers.add(buyOffer);
@@ -50,8 +50,8 @@ public class TradingSession
 		//int volumeSelling = buyers.size();
 		
 		
-		BuyOffer currentBuyer;
-		SellOffer currentSeller;
+		BidOffer currentBuyer;
+		AskOffer currentSeller;
 		//Using indexs to keep track of buyers/seller to avoid resizing array after every remove
 		while(currentIndexSeller < selling.size() && currentIndexBuyer < buyers.size())
 		{
@@ -83,17 +83,17 @@ public class TradingSession
 		}
 	}
 	//ResolvesTradeDisputeBetweenThem
-	private void resolveTrade(BuyOffer buyer, SellOffer seller)
+	private void resolveTrade(BidOffer buyer, AskOffer seller)
 	{
 		
-		int quanityTraded = Math.min(buyer.remainingAmount(), seller.amountRemaing());
+		int quanityTraded = Math.min(buyer.amountRemaining(), seller.amountRemaing());
 		float clearingPrice = (buyer.getPrice() + seller.getPrice()) / 2;
 		//Tranfer funds until done or buyer can afford anymore
 		int totalTraded = 0;
 		while(buyer.getBuyer().money()  >= clearingPrice && totalTraded < quanityTraded && seller.getSeller().getInventory().hasAmount(good_id, 1))
 		{
 			//Transfer to byer
-			buyer.getBuyer().removeMoney(clearingPrice);
+			buyer.getBuyer().pullMoney(clearingPrice);
 			buyer.getBuyer().getInventory().store(good_id, 1);
 			buyer.addRecieved(1);
 			//transfer to seller
@@ -103,8 +103,8 @@ public class TradingSession
 		
 			++totalTraded;
 		}
-		buyer.getBuyer().onUpdateBuyPrice(true, good_id,market , clearingPrice);
-		seller.getSeller().onUpdateSalePrice(totalTraded, true, market, clearingPrice);
+		buyer.getBuyer().onUpdateBidPrice(true, good_id,market , clearingPrice);
+		seller.getSeller().onUpdateAskPrice(totalTraded, true, market, clearingPrice);
 	}
 	
 }

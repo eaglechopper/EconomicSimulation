@@ -12,34 +12,37 @@ public class PriceModel
 {
 	//What good this price model is for
 	private final int good_id;
-	//
-	private Range buyBelief;
-	private Range sellBelief;
+	//Belief range
+	private Range askBelief;
+	private Range bidBelief;
 	//history
-	private final List<Float> saleHisotry;
-	private final List<Float> buyHistory;
+	private final List<Float> askHisotry;
+	private final List<Float> bidHistory;
 	private Random rand = new Random();
+	//totalObservable tradingRange
+	private Range bidRange;
+	private Range askRange;
 	
 	public PriceModel(int good_id)
 	{
 		this.good_id = good_id;
-		this.buyBelief = new Range(0.01f, 1f);
-		this.sellBelief = new Range(0.01f, 1f);
-		this.saleHisotry = new ArrayList<Float>();
-		this.buyHistory = new ArrayList<Float>();
+		this.askBelief = new Range(0.01f, 1f);
+		this.bidBelief = new Range(0.01f, 1f);
+		this.askHisotry = new ArrayList<Float>();
+		this.bidHistory = new ArrayList<Float>();
 	}
 
 	public float determineBuyPrice()
 	{
-		return buyBelief.low + rand.nextFloat() * (buyBelief.high - buyBelief.low);
+		return askBelief.low + rand.nextFloat() * (askBelief.high - askBelief.low);
 	}
 
 	public float determineSellsPrice() 
 	{
-		return sellBelief.low + rand.nextFloat() * (sellBelief.high - sellBelief.low);
+		return bidBelief.low + rand.nextFloat() * (bidBelief.high - bidBelief.low);
 	}
 
-	public void updateSalePrice(boolean success, Market market, float unitPrice)
+	public void updateAskPrice(boolean success, Market market, float unitPrice)
 	{
 		if(success)
 		{
@@ -51,7 +54,7 @@ public class PriceModel
 		}
 	}
 
-	public void updateBuyPrice(boolean success, Market market, float unitPrice)
+	public void updateBidPrice(boolean success, Market market, float unitPrice)
 	{
 		if(success)
 		{
@@ -77,6 +80,14 @@ public class PriceModel
 			this.low = low;
 			this.high = high;
 		}
+	}
+	public float getAskFavorability()
+	{
+		return 0;
+	}
+	public float getBidFavorability()
+	{
+		return 0;
 	}
 
 }
